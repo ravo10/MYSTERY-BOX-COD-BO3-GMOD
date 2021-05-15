@@ -20,203 +20,214 @@ if CLIENT then
         local _heightView = 315
         local _heightText = 50
         local _widthAll = 285
-        -- -
-        local SortedWepAddTable = list.Get( "Weapon" )
-        local SortedWepGetTable = list.Get( "Bo3RavoMysteryBoxCustomWeapon" )[ "swep_classes" ]
-        -- - -
 
-        -- Refresh button
-        local icon = vgui.Create( "DImageButton", cpanel )
+        timer.Create( "Bo3RavoMysteryBoxCustomWeaponLoader", 0.3, 0, function()
 
-        icon:SetImage( "icon16/database_refresh.png" )
-        icon:SetSize( 16, 16 )
-        
-        if widerWindow then
-            
-            icon:SetPos( window:GetWide() - 55, 10 )
+            local SortedWepAddTable = list.Get( "Weapon" )
+            local SortedWepGetTable = list.Get( "Bo3RavoMysteryBoxCustomWeapon" )
 
-        else
-            
-            icon:SetPos( _widthAll - 20, 28 )
+            if SortedWepAddTable and SortedWepGetTable and SortedWepGetTable[ "swep_classes" ] then
 
-        end
+                timer.Remove( "Bo3RavoMysteryBoxCustomWeaponLoader" )
 
-        icon.Paint = function() end
+                SortedWepGetTable = SortedWepGetTable[ "swep_classes" ]
 
-        local addATitle = function(title, pos)
-            local _DLable = vgui.Create("DLabel", cpanel)
+                -- Refresh button
+                local icon = vgui.Create( "DImageButton", cpanel )
 
-            _DLable:SetColor(Color(0, 0, 0))
-
-            if widerWindow then
-
-                local width = ( window:GetWide() - 40 ) / 2
-
-                _DLable:SetPos( 3 + pos * width, 3 )
-                _DLable:SetSize( _widthAll, _heightText )
-
-            else
+                icon:SetImage( "icon16/database_refresh.png" )
+                icon:SetSize( 16, 16 )
                 
-                _DLable:SetPos(3, 10 + _heightView * pos )
-                _DLable:SetSize(_widthAll, _heightText)
-            
-            end
-            
-            _DLable:SetFont("DermaLarge")
-            _DLable:SetText(title)
+                if widerWindow then
+                    
+                    icon:SetPos( window:GetWide() - 55, 10 )
 
-            return _DLable
-        end
-        local makeListView = function(primFunctionString, pos, currentWepDList)
-            local _DListView = vgui.Create("DListView", cpanel)
-
-            if widerWindow then
-
-                local width = ( window:GetWide() - 40 ) / 2
-                local height = window:GetTall() - 125
-
-                _DListView:SetPos( width * pos + 5 + pos * 4, 50 )
-                _DListView:SetSize( width, height )
-
-            else
-                
-                _DListView:SetPos(0, _heightView * pos + _heightText)
-                _DListView:SetSize( _widthAll, _heightView - _heightText + 12 )
-            
-            end
-
-            _DListView:SetMultiSelect(true)
-            _DListView:AddColumn("Nice Name")
-            _DListView:AddColumn("class_name")
-            --
-            if primFunctionString == "add" then
-
-                _DListView.OnRowSelected = function(panel, lineIndex, line)
-
-                    if LocalPlayer() and (not LocalPlayer():IsAdmin() or not LocalPlayer():IsSuperAdmin()) then return end
-                    timer.Remove( "bo3RavoMysteryBoxSaveSettings" )
-
-                    local _AddToTextFile = function( NewWeaponClass )
-
-                        file.Append( "bo3_mysterybox_ravo.txt", "\n" .. NewWeaponClass )
-
-                    end
-
-                    local WeaponClassSelected = line:GetColumnText(2)
-                    local ListHasWeaponClassAlready = table.HasValue( SortedWepGetTable, WeaponClassSelected )
-
-                    if not ListHasWeaponClassAlready then
-
-                        -- Add To .txt file
-                        _AddToTextFile( WeaponClassSelected )
-
-                        -- Refresh
-                        currentWepDList:AddLine( SortedWepAddTable[ string.lower( WeaponClassSelected ) ][ "PrintName" ], string.lower( WeaponClassSelected ) )
-                        SortedWepGetTable = bo3ravo_GetCustomWepTable()
-
-                        timer.Create( "bo3RavoMysteryBoxSaveSettings", 0.3, 1, function()
-
-                            _updateWeaponsServer( SortedWepGetTable, cpanel, window, widerWindow )
-
-                        end )
-
-                    end
+                else
+                    
+                    icon:SetPos( _widthAll - 20, 28 )
 
                 end
 
-            elseif primFunctionString == "remove" then
+                icon.Paint = function() end
 
-                _DListView.OnRowSelected = function(panel, lineIndex, line)
+                local addATitle = function(title, pos)
+                    local _DLable = vgui.Create("DLabel", cpanel)
 
-                    if LocalPlayer() and (not LocalPlayer():IsAdmin() or not LocalPlayer():IsSuperAdmin()) then return end
-                    timer.Remove( "bo3RavoMysteryBoxSaveSettings" )
+                    _DLable:SetColor(Color(0, 0, 0))
 
-                    local WeaponClassSelected = line:GetColumnText(2)
+                    if widerWindow then
 
-                    local _WriteTextFile = function( NewCustomWeaponsTable )
+                        local width = ( window:GetWide() - 40 ) / 2
 
-                        file.Write( "bo3_mysterybox_ravo.txt", table.concat( NewCustomWeaponsTable, "\n" ) )
+                        _DLable:SetPos( 3 + pos * width, 3 )
+                        _DLable:SetSize( _widthAll, _heightText )
+
+                    else
+                        
+                        _DLable:SetPos(3, 10 + _heightView * pos )
+                        _DLable:SetSize(_widthAll, _heightText)
+                    
+                    end
+                    
+                    _DLable:SetFont("DermaLarge")
+                    _DLable:SetText(title)
+
+                    return _DLable
+                end
+                local makeListView = function(primFunctionString, pos, currentWepDList)
+                    local _DListView = vgui.Create("DListView", cpanel)
+
+                    if widerWindow then
+
+                        local width = ( window:GetWide() - 40 ) / 2
+                        local height = window:GetTall() - 125
+
+                        _DListView:SetPos( width * pos + 5 + pos * 4, 50 )
+                        _DListView:SetSize( width, height )
+
+                    else
+                        
+                        _DListView:SetPos(0, _heightView * pos + _heightText)
+                        _DListView:SetSize( _widthAll, _heightView - _heightText + 12 )
+                    
+                    end
+
+                    _DListView:SetMultiSelect(true)
+                    _DListView:AddColumn("Nice Name")
+                    _DListView:AddColumn("class_name")
+                    --
+                    if primFunctionString == "add" then
+
+                        _DListView.OnRowSelected = function(panel, lineIndex, line)
+
+                            if LocalPlayer() and (not LocalPlayer():IsAdmin() or not LocalPlayer():IsSuperAdmin()) then return end
+                            timer.Remove( "bo3RavoMysteryBoxSaveSettings" )
+
+                            local _AddToTextFile = function( NewWeaponClass )
+
+                                file.Append( "bo3_mysterybox_ravo.txt", "\n" .. NewWeaponClass )
+
+                            end
+
+                            local WeaponClassSelected = line:GetColumnText(2)
+                            local ListHasWeaponClassAlready = table.HasValue( SortedWepGetTable, WeaponClassSelected )
+
+                            if not ListHasWeaponClassAlready then
+
+                                -- Add To .txt file
+                                _AddToTextFile( WeaponClassSelected )
+
+                                -- Refresh
+                                currentWepDList:AddLine( SortedWepAddTable[ string.lower( WeaponClassSelected ) ][ "PrintName" ], string.lower( WeaponClassSelected ) )
+                                SortedWepGetTable = bo3ravo_GetCustomWepTable()
+
+                                timer.Create( "bo3RavoMysteryBoxSaveSettings", 0.3, 1, function()
+
+                                    _updateWeaponsServer( SortedWepGetTable, cpanel, window, widerWindow )
+
+                                end )
+
+                            end
+
+                        end
+
+                    elseif primFunctionString == "remove" then
+
+                        _DListView.OnRowSelected = function(panel, lineIndex, line)
+
+                            if LocalPlayer() and (not LocalPlayer():IsAdmin() or not LocalPlayer():IsSuperAdmin()) then return end
+                            timer.Remove( "bo3RavoMysteryBoxSaveSettings" )
+
+                            local WeaponClassSelected = line:GetColumnText(2)
+
+                            local _WriteTextFile = function( NewCustomWeaponsTable )
+
+                                file.Write( "bo3_mysterybox_ravo.txt", table.concat( NewCustomWeaponsTable, "\n" ) )
+
+                            end
+
+                            -- -
+                            -- Remove From .txt file
+                            local temp__customWepTable = table.Copy( SortedWepGetTable )
+                            local indexToRemoveFromTable = table.KeyFromValue( temp__customWepTable, WeaponClassSelected )
+
+                            -- Remove
+                            table.remove( temp__customWepTable, indexToRemoveFromTable )
+
+                            -- Save
+                            _WriteTextFile( temp__customWepTable )
+
+                            -- Refresh
+                            if panel:GetLine( lineIndex ) then panel:RemoveLine( lineIndex ) end
+                            SortedWepGetTable = bo3ravo_GetCustomWepTable()
+
+                            timer.Create( "bo3RavoMysteryBoxSaveSettings", 0.3, 1, function()
+
+                                _updateWeaponsServer( SortedWepGetTable, cpanel, window, widerWindow )
+
+                            end )
+
+                            if not SortedWepGetTable or #SortedWepGetTable == 0 then _Write( {} ) end
+
+                        end
 
                     end
 
-                    -- -
-                    -- Remove From .txt file
-                    local temp__customWepTable = table.Copy( SortedWepGetTable )
-                    local indexToRemoveFromTable = table.KeyFromValue( temp__customWepTable, WeaponClassSelected )
+                    return _DListView
 
-                    -- Remove
-                    table.remove( temp__customWepTable, indexToRemoveFromTable )
+                end
+                --
+                -- --
+                -- Get Weapons
+                local addedWeaponsLabel = addATitle("Added SWEPs:", 1)
+                local addedWeaponsList = makeListView("remove", 1)
+                -- Get and Show
+                for _,_WepClassName in pairs( SortedWepGetTable ) do
+                    if SortedWepAddTable and SortedWepAddTable[ string.lower( _WepClassName ) ] then
+                        addedWeaponsList:AddLine( SortedWepAddTable[ string.lower( _WepClassName ) ][ "PrintName" ], string.lower( _WepClassName ) )
+                    end
+                end
+                --- -
+                -- Set Weapons
+                local allWeaponsLabel = addATitle( "Add SWEPs:", 0 )
+                local allWeaponsList = makeListView( "add", 0, addedWeaponsList )
 
-                    -- Save
-                    _WriteTextFile( temp__customWepTable )
+                -- Get All Available Weapons on Server
+                for _,dataTable in pairs( SortedWepAddTable ) do
+                    if not string.match( string.lower( dataTable.ClassName ), "_base" ) then
+                        allWeaponsList:AddLine( dataTable.PrintName, string.lower( dataTable.ClassName ) )
+                    end
+                end
 
-                    -- Refresh
-                    if panel:GetLine( lineIndex ) then panel:RemoveLine( lineIndex ) end
-                    SortedWepGetTable = bo3ravo_GetCustomWepTable()
+                -- - -
+                -- What Will Override ViewZPos
+                addedWeaponsLabel:MoveToFront()
+                allWeaponsLabel:MoveToFront()
 
-                    timer.Create( "bo3RavoMysteryBoxSaveSettings", 0.3, 1, function()
+                icon.DoClick = function()
 
-                        _updateWeaponsServer( SortedWepGetTable, cpanel, window, widerWindow )
+                    -- Remove old panels
+                    icon:Remove()
 
-                    end )
+                    addedWeaponsLabel:Remove()
+                    allWeaponsLabel:Remove()
 
-                    if not SortedWepGetTable or #SortedWepGetTable == 0 then _Write( {} ) end
+                    addedWeaponsList:Remove()
+                    allWeaponsList:Remove()
+
+                    bo3ravo_GetCustomWepTable()
+                    bo3ravoMakeSettingsSWEPPanel( cpanel, window, widerWindow )
 
                 end
 
             end
 
-            return _DListView
-
-        end
-        --
-        -- --
-        -- Get Weapons
-        local addedWeaponsLabel = addATitle("Added SWEPs:", 1)
-        local addedWeaponsList = makeListView("remove", 1)
-        -- Get and Show
-        for _,_WepClassName in pairs( SortedWepGetTable ) do
-            if SortedWepAddTable and SortedWepAddTable[ string.lower( _WepClassName ) ] then
-                addedWeaponsList:AddLine( SortedWepAddTable[ string.lower( _WepClassName ) ][ "PrintName" ], string.lower( _WepClassName ) )
-            end
-        end
-        --- -
-        -- Set Weapons
-        local allWeaponsLabel = addATitle( "Add SWEPs:", 0 )
-        local allWeaponsList = makeListView( "add", 0, addedWeaponsList )
-
-        -- Get All Available Weapons on Server
-        for _,dataTable in pairs( SortedWepAddTable ) do
-            if not string.match( string.lower( dataTable.ClassName ), "_base" ) then
-                allWeaponsList:AddLine( dataTable.PrintName, string.lower( dataTable.ClassName ) )
-            end
-        end
-
-        -- - -
-        -- What Will Override ViewZPos
-        addedWeaponsLabel:MoveToFront()
-        allWeaponsLabel:MoveToFront()
-
-        icon.DoClick = function()
-
-            -- Remove old panels
-            icon:Remove()
-
-            addedWeaponsLabel:Remove()
-            allWeaponsLabel:Remove()
-
-            addedWeaponsList:Remove()
-            allWeaponsList:Remove()
-
-            bo3ravo_GetCustomWepTable()
-            bo3ravoMakeSettingsSWEPPanel( cpanel, window, widerWindow )
-
-        end
+        end )
 
     end
 
     list.Set( "DesktopWindows", "Bo3RavoNorwayMysteryBoxExtraSettingsPanel", {
-    
+            
         title		= "Mystery Box [ Admin ] - (Made by: ravo Norway)",
         icon		= "icon64/tool.png",
         width		= 960,

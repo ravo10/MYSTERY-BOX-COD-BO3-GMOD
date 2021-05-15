@@ -2,6 +2,9 @@
 
 # STABLE ( NEW )
 
+### 1.1 ( 15.05.21 )
+* Added a loader for checking if table for editable SWEPs is valid
+
 ### 1.0 ( 15.05.21 )
 * Improved the logic for when a Player is taking a weapon from the box
 * Fixed a bug where when a SWEP was removed from the list, it would not get saved locally for viewing
