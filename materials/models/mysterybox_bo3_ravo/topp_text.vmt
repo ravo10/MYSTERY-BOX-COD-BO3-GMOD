@@ -1,0 +1,7 @@
+"VertexlitGeneric"
+{
+	"$basetexture" "models/mysterybox_bo3_ravo/topp_text"
+	"$surfaceprop" "Default"
+	"$selfillum" "1"
+	//"$selfillumtint" "[246 181 41 155]"
+}

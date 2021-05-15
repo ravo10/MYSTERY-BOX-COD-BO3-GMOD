@@ -1,0 +1,7 @@
+"VertexlitGeneric"
+{
+	"$basetexture" "models/mysterybox_bo3_ravo/teddybear"
+	"$bumpmap" "models/mysterybox_bo3_ravo/teddybear_normal"
+	"$surfaceprop" "Flesh"
+	"$reflectivity" "[.02 .02 .02]"
+}
