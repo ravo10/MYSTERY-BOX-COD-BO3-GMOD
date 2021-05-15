@@ -26,7 +26,7 @@ Use the Context Menu ( Hold 'C' ) → *Mystery Box [ADMIN]* to access the SWEP S
 ```lua
 bo3ravo_mysterybox_bo3_ravo_exchangeWeapons
 bo3ravo_mysterybox_bo3_ravo_strictExchange
-bo3ravo_mysterybox_bo3_ravo_teddybearGetChance *(higher than 0 == no teddy bear)*
+bo3ravo_mysterybox_bo3_ravo_teddybearGetChance *(higher than 0 == no teddy bear - Will adjust automatically if ConVar "..._TotallyCustomValueAllowed" is turned off)*
 bo3ravo_mysterybox_bo3_ravo_teddybearGetChance_TotallyCustomValueAllowed *(needs to be set to allow totally custom "teddy bear get chance")*
 bo3ravo_mysterybox_bo3_ravo_MysteryBoxTotalHealth
 bo3ravo_mysterybox_bo3_ravo_hideAllNotificationsFromMysteryBox
