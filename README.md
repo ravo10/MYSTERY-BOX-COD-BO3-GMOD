@@ -1,3 +1,4 @@
+![MysteryBox](https://repository-images.githubusercontent.com/367639952/2592d100-b597-11eb-8f96-511484cece38)
 # Unoffical COD Zombie Mystery Box for Garry's Mod!
 
 ### *Replica from Call of Duty: Black Ops 3* ( *Only tested in **Garry's Mod 32-bit** ( default )* )
