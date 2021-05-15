@@ -219,7 +219,6 @@ function Bo3RavoMysteryBoxTakeWeapon( self, activator, weaponChild )
 
 	-- Give SWEP
 	activator:Give( WeaponClassFromBox )
-	activator:SelectWeapon( WeaponClassFromBox )
 
 	if not PlayerHasTheCurrentWeaponEquiped and ShowMysteryBoxNotification() then
 
@@ -268,17 +267,33 @@ function Bo3RavoMysteryBoxTakeWeapon( self, activator, weaponChild )
 
 		local NewWeaponEnt for _, Weapon in pairs( activator:GetWeapons() ) do if Weapon:GetClass() == WeaponClassFromBox then NewWeaponEnt = Weapon break end end
 
-		activator:GiveAmmo( 25, NewWeaponEnt:GetPrimaryAmmoType(), false )
-		activator:GiveAmmo( 3, NewWeaponEnt:GetSecondaryAmmoType(), false )
+		local primaryAmmo = NewWeaponEnt:GetPrimaryAmmoType()
+		local secondaryAmmo = NewWeaponEnt:GetSecondaryAmmoType()
+
+		activator:GiveAmmo( 25, primaryAmmo, false )
+		activator:GiveAmmo( 3, secondaryAmmo, false )
+
+		local ThereIsActuallyAmmoAvailable = ( primaryAmmo >= 0 or secondaryAmmo >= 0 )
 
 		-- If the Player already got the SWEP, just give ammo
 		if PlayerHasTheCurrentWeaponEquiped and ShowMysteryBoxNotification() then
 
-			activator:SendLua( [[notification.AddLegacy( "You already have: ]] .. bo3RavoNiceWeaponNamesGame[ WeaponClassFromBox ] .. [[; gave ammo", NOTIFY_GENERIC, 4 )]] )
+			if ThereIsActuallyAmmoAvailable then
+			
+				activator:SendLua( [[notification.AddLegacy( "You already have: ]] .. bo3RavoNiceWeaponNamesGame[ WeaponClassFromBox ] .. [[; gave ammo", NOTIFY_GENERIC, 4 )]] )
+
+			else
+				
+				activator:SendLua( [[notification.AddLegacy( "You already have: ]] .. bo3RavoNiceWeaponNamesGame[ WeaponClassFromBox ] .. [[", NOTIFY_GENERIC, 4 )]] )
+
+			end
 
 		end
 
 	end
+
+	-- Select SWEP
+	timer.Simple( 0, function() activator:SelectWeapon( WeaponClassFromBox ) end )
 
 	weaponChild:SetRenderMode( RENDERMODE_TRANSALPHA )
 	weaponChild:SetColor( Color(0, 0, 0, 0) )

@@ -147,7 +147,7 @@ function ENT:CycleWeapons()
 		CycleUntilNextWepInSecond = CycleUntilNextWepInSecond * ( 1 + 0.9 ) -- Decrease by an percentage
 	end )
 
-	local function _swithWeapons(self)
+	local function _switchWeapons(self)
 		if not self:IsValid() then return end
 
 		local randomWeaponIndex = math.ceil( math.random( self:GetTeddybearRisk(), tableCountAllowedWeapons ) )
@@ -270,7 +270,7 @@ function ENT:CycleWeapons()
 
 		if totalAmountOfReps >= 0 then
 			timer.Simple(CycleUntilNextWepInSecond, function()
-				_swithWeapons(self)
+				_switchWeapons(self)
 			end)
 		end
 	end
@@ -281,7 +281,7 @@ function ENT:CycleWeapons()
 		if self and self:IsValid() then
 			timer.Remove(timerID)
 
-			_swithWeapons(self)
+			_switchWeapons(self)
 		end
 	end)
 end

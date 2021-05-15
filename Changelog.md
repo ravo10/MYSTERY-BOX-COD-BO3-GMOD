@@ -2,6 +2,10 @@
 
 # STABLE ( NEW )
 
+### 1.2 ( 15.05.21 )
+* Added check for notification, so it only tells Player that ammo was given if the SWEP actually uses ammo
+* Moved selection of current SWEP taken further down in code and added a small delay
+
 ### 1.1 ( 15.05.21 )
 * Added a loader for checking if table for editable SWEPs is valid
 
