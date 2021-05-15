@@ -1,9 +1,8 @@
-# "Real" COD Zombie Mystery Box!
+# Unoffical COD Zombie Mystery Box for Garry's Mod!
 
-# *Replica from Call of Duty: Black Ops 3*
-*Originally made for the [My Base Defence Gamemode](https://steamcommunity.com/sharedfiles/filedetails/?id=1647345157)
+### *Replica from Call of Duty: Black Ops 3* ( *Only tested in **Garry's Mod 32-bit** ( default )* )
 
-*Only tested in **Garry's Mod 32-bit** (default)*
+**Originally made for the [My Base Defence Gamemode](https://steamcommunity.com/sharedfiles/filedetails/?id=1647345157)**
 
 **Fully working!**
 You can configure your weapons, or ignore it and have all of the weapons you have added in-game as a possible outcome; you will also be able to get the dredde teddy bear after a few uses (default setting).
@@ -11,17 +10,18 @@ You can configure your weapons, or ignore it and have all of the weapons you hav
 NEW: **Access the Context Menu Settings Panel**
 Use the Context Menu ( Hold 'C' ) → *Mystery Box [ADMIN]* to access the SWEP Settings Panel and ConVar Settings Panel.
 
+```
 +--------------------------------------------------------
 **Print name:** Mystery Box (BO3)
 **Category:** ravo Norway
 +--------------------------------------------
+```
 *Actually my first self-made model!*
 
 ***Bewear; because of a high particle count, spawning allot of mystery boxes can crash the game from client side. If you need many, try disabling the particles with one of the ConVar options.***
 
 ### Configuration:
-***ConVars:***
-### SERVER PROTECTED CONSOLE VARIABLES ( SAVED ) :
+***ConVars ( SERVER PROTECTED CONSOLE VARIABLES ( SAVED ) ):***
 ```lua
 bo3ravo_mysterybox_bo3_ravo_exchangeWeapons
 bo3ravo_mysterybox_bo3_ravo_strictExchange
@@ -42,7 +42,7 @@ Copy the default layout provided underneath in (if you want). You will then writ
 **Using the control panel to remove classes, will delete all comments in the .txt-file**.
 
 *I.e. ignoring configuration, will include all weapons; if this isn't clear. (some comments asking about it)*
-### Comment system:
+### Comment system ( FOR ADVANCED USERS ):
 ```lua
 ------------------------
 /*comment_here*/
